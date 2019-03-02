@@ -30,12 +30,8 @@ public class Customer {
     if (!regNr.equals("-1")) {
       // Kontrollera här registreringsnumrets format
       System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
-      System.out.println("  Giltigt: " + '\n');
-      System.out.println("    KVITTO");
-      System.out.println("    Registreringsnummer: ");
-      System.out.println("    Tid: ");
-      System.out.println("    (Datum:)" + '\n');
-      Input.promptEnterKey();
+      System.out.println("  Giltigt: ");
+      printReceipt_checkIn();
       System.out.println('\n' + "  Ogiltigt: " + '\n');
       System.out.println("    Felmeddelande!" + '\n');
       Input.promptEnterKey();
@@ -57,17 +53,17 @@ public class Customer {
       Input.promptEnterKey();
       printReceipt_checkOut();
       // Om regNr är obefintligt
-      // System.out.println("  CASE: Obefintligt: " + '\n');
+      // System.out.println("  Obefintligt: " + '\n');
       // System.out.println("    Felmeddelande!" + '\n');
       // Input.promptEnterKey();
     }
   }
   
   private static void printReceipt_checkIn() {
-    System.out.println('\n' + "  KVITTO ");
-    System.out.println("  Registreringsnummer: ");
-    System.out.println("  Tid: ");
-    System.out.println("  (Datum:) " + '\n');
+    System.out.println('\n' + "    KVITTO ");
+    System.out.println("    Registreringsnummer: ");
+    System.out.println("    Tid: ");
+    System.out.println("    (Datum:) " + '\n');
     Input.promptEnterKey();
   }
   
