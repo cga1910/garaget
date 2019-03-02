@@ -1,8 +1,8 @@
 public class Main {
   
-	public static void main(String[] args) {
-      mainMenu();
-	}
+  public static void main(String[] args) {
+    mainMenu();
+  }
 
   private static void mainMenu() {
     boolean looping = true;
