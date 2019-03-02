@@ -14,18 +14,18 @@ public class Customer {
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
       int userInput = Input.userInputInt();
-      if (userInput == 1) {
+      if (userInput == 1) { // Påbörja parkering
         checkIn();
-      } else if (userInput == 2) {
+      } else if (userInput == 2) { // Avsluta parkering
         checkOut();
-      } else if (userInput == 0) {
+      } else if (userInput == 0) { // Gå till föregående
         looping = false;
       }
     }
   }
 
   private static void checkIn() {
-    String regNr = Input.userInputRegNr();
+    String regNr = Input.userInputRegNr(); // Funktionen returnerar strängen "-1" om användaren bara trycker Enter
     // Fortsätt bara om strängen innehåller något
     if (!regNr.equals("-1")) {
       // Kontrollera här registreringsnumrets format
@@ -57,7 +57,7 @@ public class Customer {
       Input.promptEnterKey();
       printReceipt_checkOut();
       // Om regNr är obefintligt
-      // System.out.println("  Obefintligt: " + '\n');
+      // System.out.println("  CASE: Obefintligt: " + '\n');
       // System.out.println("    Felmeddelande!" + '\n');
       // Input.promptEnterKey();
     }
