@@ -14,11 +14,11 @@ public class Customer {
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
       int userInput = Input.userInputInt();
-      if (userInput == 1) { // Påbörja parkering
+      if (userInput == 1) {
         checkIn();
-      } else if (userInput == 2) { // Avsluta parkering
+      } else if (userInput == 2) {
         checkOut();
-      } else if (userInput == 0) { // Gå till föregående
+      } else if (userInput == 0) {
         looping = false;
       }
     }
@@ -57,7 +57,7 @@ public class Customer {
       Input.promptEnterKey();
       printReceipt_checkOut();
       // Om regNr är obefintligt
-      // System.out.println("  CASE: Obefintligt: " + '\n');
+      // System.out.println("  Obefintligt: " + '\n');
       // System.out.println("    Felmeddelande!" + '\n');
       // Input.promptEnterKey();
     }
