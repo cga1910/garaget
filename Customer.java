@@ -38,21 +38,58 @@ public class Customer {
     String regNr = Input.userInputRegNr();
     // Fortsätt bara om strängen innehåller något
     if (!regNr.equals("-1")) {
-      // Kontrollera här om regNr är befintligt eller obefintligt
-      System.out.println("  Här ska kontrolleras huruvida registreringsnumret finns i systemet eller ej." + '\n');
-      System.out.println("  Befintligt: " + '\n');
-      System.out.println("    Parkerad tid: ");
-      System.out.println("    Debitering: ");
-        System.out.print("    Betalningsprompt:");
-      double payment = Input.userInputDouble();
-      System.out.println("    Tack för din betalning!" + '\n');
-      Input.promptEnterKey();
-      double paid = -1;
-      printReceipt_checkOut(paid);
-      // Om regNr är obefintligt
-      // System.out.println("  Obefintligt: " + '\n');
-      // System.out.println("    Felmeddelande!" + '\n');
-      // Input.promptEnterKey();
+      // Kontrollera om angivet regNr finns i garaget
+      if (Garage.checkPresence(regNr)) {
+        // 1. Med hjälp av regNr, ta reda på vilket index som fordonet finns på
+        int parkingIndex = Garage.getParkingIndex(regNr);
+        // 2. Hämta start-tiden för fordonet på ovanstående index
+        int parkingStartTime = Garage.parkedVehicles.get(parkingIndex).startTime;
+        // 3. Räkna ut parkerad tid genom att subtrahera från nutid (systemtid)
+        int parkedTime = Garage.systemTime - parkingStartTime;
+
+        // Hämta priset, baserat på parkerad tid
+        double price = Debit.getDebit(parkedTime);
+
+        System.out.println();
+        System.out.println("    Parkerad tid: " + parkedTime);
+        System.out.println("    Taxa: " + Debit.taxa);
+        System.out.println("    Antal debiterade tidsenheter: " + Debit.ADT);
+        System.out.println("    Debitering: " + Debit.ADT + " * " + Debit.taxa + " = " + price);
+        System.out.println("    Att betala: " + price + " kr");
+
+        // Anropa betalnings-metoden
+        cashPayment(price, parkedTime);
+
+        // TODO: Här ska fordonet tas bort från listan över aktiva ärenden
+
+      } else {
+        System.out.println("  Kunde inte hitta registreringsnumret!" + '\n');
+        Input.promptEnterKey();
+      }
+    }
+  }
+
+  private static void cashPayment(double price, int parkedTime) {
+    double balance = 0 - price;
+    double payment = 0;
+
+    while (balance < 0) { // Upprepa så länge kunden har kvar att betala
+      System.out.print("    >> ");
+      payment = Input.userInputDouble();
+      if (payment > 0) { // Godtag bara positiv betalning
+        balance = balance + payment;
+      }
+      if (balance >= 0) { // Kunden har betalat tillräckligt
+        if (balance > 0) {
+          System.out.println("    Växel: " + balance + " kr");
+        }
+        System.out.println("    Tack för din betalning!" + '\n');
+        Input.promptEnterKey();
+        printReceipt_checkOut(price, parkedTime);
+        break; // Bryt while-loopen
+      } else if (balance < 0) {
+        System.out.println("    Kvar att betala: " + (balance * -1));
+      }
     }
   }
 
@@ -64,10 +101,10 @@ public class Customer {
     Input.promptEnterKey();
   }
   
-  private static void printReceipt_checkOut(double paid) {
+  private static void printReceipt_checkOut(double paid, int parkedTime) {
     System.out.println('\n' + "    KVITTO ");
     System.out.println("    (Datum:) ");
-    System.out.println("    Parkerad tid: ");
+    System.out.println("    Parkerad tid: " + parkedTime);
     System.out.println("    Betalt: " + paid);
     System.out.println("    Utpasseringskod: " + '\n');
     Input.promptEnterKey();

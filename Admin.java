@@ -7,7 +7,7 @@ public class Admin {
     while (looping) {
       System.out.println();
       System.out.println("  ------------ ADMIN ------------");
-      System.out.println("  Aktuell tid: ");
+      System.out.println("  Aktuell tid: " + Garage.systemTime);
       System.out.println("  Prisinfo: ");
       System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
       System.out.println("  -------------------------------");
@@ -34,12 +34,13 @@ public class Admin {
   private static void setTime() {
     System.out.print('\n' + "  Ange tid: ");
     int time = Input.userInputInt();
+    Garage.systemTime = time;
   }
   
   private static void removeVehicle() {
     String regNr = Input.userInputRegNr();
     boolean befintligt = false;
-    // TODO: Kontrollera här om registreringsnumret finns
+    // TODO: Kontrollera här om registreringsnumret finns - använd metoden checkPresence i Garage-klassen
     if (befintligt) {
       System.out.println("  Fordonet med registreringsnummer " + regNr + " togs bort ur listan.");
     } else {
