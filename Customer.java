@@ -1,5 +1,5 @@
 public class Customer {
-  
+
   public static void menu() {
     boolean looping = true;
     while (looping) {
@@ -14,13 +14,9 @@ public class Customer {
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
       int userInput = Input.userInputInt();
-      if (userInput == 1) { // Påbörja parkering
-        checkIn();
-      } else if (userInput == 2) { // Avsluta parkering
-        checkOut();
-      } else if (userInput == 0) { // Gå till föregående
-        looping = false;
-      }
+      if      (userInput == 1) { checkIn(); }
+      else if (userInput == 2) { checkOut(); }
+      else if (userInput == 0) { looping = false; }
     }
   }
 
@@ -51,14 +47,15 @@ public class Customer {
       double payment = Input.userInputDouble();
       System.out.println("    Tack för din betalning!" + '\n');
       Input.promptEnterKey();
-      printReceipt_checkOut();
+      double paid = -1;
+      printReceipt_checkOut(paid);
       // Om regNr är obefintligt
       // System.out.println("  Obefintligt: " + '\n');
       // System.out.println("    Felmeddelande!" + '\n');
       // Input.promptEnterKey();
     }
   }
-  
+
   private static void printReceipt_checkIn() {
     System.out.println('\n' + "    KVITTO ");
     System.out.println("    Registreringsnummer: ");
@@ -67,11 +64,11 @@ public class Customer {
     Input.promptEnterKey();
   }
   
-  private static void printReceipt_checkOut() {
+  private static void printReceipt_checkOut(double paid) {
     System.out.println('\n' + "    KVITTO ");
     System.out.println("    (Datum:) ");
     System.out.println("    Parkerad tid: ");
-    System.out.println("    Betalt: ");
+    System.out.println("    Betalt: " + paid);
     System.out.println("    Utpasseringskod: " + '\n');
     Input.promptEnterKey();
   }
