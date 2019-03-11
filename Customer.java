@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Customer {
 
   public static void menu() {
@@ -60,13 +62,27 @@ public class Customer {
         // Anropa betalnings-metoden
         cashPayment(price, parkedTime);
 
-        // TODO: Här ska fordonet tas bort från listan över aktiva ärenden
+        // TODO: Logga ärendet
+
+        // Ta bort ärendet
+        Garage.parkedVehicles.remove(parkingIndex);
+
+        // Skapa en utpasseringskod
+        int passCode = generatePasscode();
+
+        // Skriv ut kvittot
+        printReceipt_checkOut(price, parkedTime, passCode);
 
       } else {
         System.out.println("  Kunde inte hitta registreringsnumret!" + '\n');
         Input.promptEnterKey();
       }
     }
+  }
+
+  private static int generatePasscode() {
+    Random random = new Random();
+    return random.nextInt(9999);
   }
 
   private static void cashPayment(double price, int parkedTime) {
@@ -85,7 +101,6 @@ public class Customer {
         }
         System.out.println("    Tack för din betalning!" + '\n');
         Input.promptEnterKey();
-        printReceipt_checkOut(price, parkedTime);
         break; // Bryt while-loopen
       } else if (balance < 0) {
         System.out.println("    Kvar att betala: " + (balance * -1));
@@ -101,12 +116,12 @@ public class Customer {
     Input.promptEnterKey();
   }
   
-  private static void printReceipt_checkOut(double paid, int parkedTime) {
+  private static void printReceipt_checkOut(double paid, int parkedTime, int passCode) {
     System.out.println('\n' + "    KVITTO ");
     System.out.println("    (Datum:) ");
     System.out.println("    Parkerad tid: " + parkedTime);
     System.out.println("    Betalt: " + paid);
-    System.out.println("    Utpasseringskod: " + '\n');
+    System.out.println("    Utpasseringskod: " + passCode + '\n');
     Input.promptEnterKey();
   }
   
