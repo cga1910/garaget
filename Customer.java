@@ -1,3 +1,6 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Random;
 
 public class Customer {
@@ -53,16 +56,20 @@ public class Customer {
         double price = Debit.getDebit(parkedTime);
 
         System.out.println();
-        System.out.println("    Parkerad tid: " + parkedTime);
-        System.out.println("    Taxa: " + Debit.taxa);
-        System.out.println("    Antal debiterade tidsenheter: " + Debit.ADT);
-        System.out.println("    Debitering: " + Debit.ADT + " * " + Debit.taxa + " = " + price);
+        System.out.println("    Parkerad tid: " + (parkedTime/60) + " minuter");
+        System.out.println("    Taxa: " + Debit.taxa + " kr för varje påbörjad period om " + (Debit.timeUnit/60) + " minuter");
+        System.out.println("    Antal debiterade perioder: " + Debit.ADT + '\n');
+        System.out.println("    Debitering: " + Debit.ADT + " * " + Debit.taxa + " kr = " + price + " kr" + '\n');
         System.out.println("    Att betala: " + price + " kr");
 
         // Anropa betalnings-metoden
         cashPayment(price, parkedTime);
 
-        // TODO: Logga ärendet
+        // Logga ärendet
+        // TODO: timeUnit och taxa ska plockas från fordons-objektet egentligen - ej från systemets nuvarande värden (i Debit),
+        // TODO: men så länge incheckningen inte lagrar dessa variabler i fordons-objektet måste vi ta dem från Debit.
+        // TODO: Men det är inte kritiskt.
+        Log.addEntry(getDate(), regNr, Debit.taxa, Debit.timeUnit, parkingStartTime, Garage.systemTime, parkedTime, price);
 
         // Ta bort ärendet
         Garage.parkedVehicles.remove(parkingIndex);
@@ -103,7 +110,7 @@ public class Customer {
         Input.promptEnterKey();
         break; // Bryt while-loopen
       } else if (balance < 0) {
-        System.out.println("    Kvar att betala: " + (balance * -1));
+        System.out.println("    Kvar att betala: " + (balance * -1) + " kr");
       }
     }
   }
@@ -118,11 +125,16 @@ public class Customer {
   
   private static void printReceipt_checkOut(double paid, int parkedTime, int passCode) {
     System.out.println('\n' + "    KVITTO ");
-    System.out.println("    (Datum:) ");
-    System.out.println("    Parkerad tid: " + parkedTime);
-    System.out.println("    Betalt: " + paid);
+    System.out.println("    Datum: " + getDate());
+    System.out.println("    Parkerad tid: " + (parkedTime/60) + " minuter");
+    System.out.println("    Betalt: " + paid + " kr" + '\n');
     System.out.println("    Utpasseringskod: " + passCode + '\n');
     Input.promptEnterKey();
   }
-  
+
+  private static String getDate() {
+    LocalDateTime ldt = LocalDateTime.now();
+    String date = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
+    return date;
+  }
 }

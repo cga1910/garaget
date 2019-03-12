@@ -159,7 +159,29 @@ public class Admin {
   }
 
   private static void printLog() {
-    System.out.println('\n' + "  Loggen visas..." + '\n');
+    System.out.println('\n' + "  Logg:" + '\n');
+    for (int i = 0; i < Log.list.size(); i++) {
+      // Hämta information från loggen
+      String date = Log.list.get(i).date;
+      String regNr = Log.list.get(i).regNr;
+      double taxa = Log.list.get(i).taxa;
+      double timeUnit = Log.list.get(i).timeUnit;
+      int startTime = Log.list.get(i).startTime;
+      int endTime = Log.list.get(i).endTime;
+      int parkedTime = Log.list.get(i).parkedTime;
+      double debit = Log.list.get(i).debit;
+      // Skriv ut...
+      System.out.print("  " + (i+1) + ".  ");
+      System.out.print  ("Utcheckningsdatum: " + date       + "  ");
+      System.out.print  ("Reg-nr: "            + regNr      + "  ");
+      System.out.print  ("Taxa: "              + taxa       + "  ");
+      System.out.print  ("Tidsenhet: "         + timeUnit   + "  ");
+      System.out.print  ("Starttid: "          + startTime  + "  ");
+      System.out.print  ("Sluttid: "           + endTime    + "  ");
+      System.out.print  ("Parkerad tid: "      + parkedTime + "  ");
+      System.out.println("Debitering: "        + debit      + "  ");
+    }
+    System.out.println();
     Input.promptEnterKey();
   }
   
