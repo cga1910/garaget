@@ -14,7 +14,7 @@ public class Customer {
       System.out.println("  Prisinfo: ");
       System.out.println("  Garaget är Fullt/Ledigt");
       System.out.println("  -----------------------------------");
-      System.out.println("  1. Påbörja parkering" + '\n' + 
+      System.out.println("  1. Påbörja parkering" + '\n' +
                        "  2. Avsluta parkering");
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
@@ -32,7 +32,9 @@ public class Customer {
       // Kontrollera här registreringsnumrets format
       System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
       System.out.println("  Giltigt: ");
-      printReceipt_checkIn();
+      ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime);
+      Garage.parkedVehicles.add(vehicle);
+      printReceipt_checkIn(regNr, Garage.systemTime);
       System.out.println('\n' + "  Ogiltigt: " + '\n');
       System.out.println("    Felmeddelande!" + '\n');
       Input.promptEnterKey();
@@ -115,14 +117,14 @@ public class Customer {
     }
   }
 
-  private static void printReceipt_checkIn() {
-    System.out.println('\n' + "    KVITTO ");
-    System.out.println("    Registreringsnummer: ");
-    System.out.println("    Tid: ");
-    System.out.println("    (Datum:) " + '\n');
-    Input.promptEnterKey();
-  }
-  
+private static void printReceipt_checkIn(String regNr, int startTime) {
+ System.out.println('\n' + "    KVITTO ");
+ System.out.println("    Registreringsnummer:  " + regNr);
+ System.out.println("    Tid: " + startTime);
+ System.out.println("    (Datum:) " + '\n');
+ Input.promptEnterKey();
+}
+
   private static void printReceipt_checkOut(double paid, int parkedTime, int passCode) {
     System.out.println('\n' + "    KVITTO ");
     System.out.println("    Datum: " + getDate());
