@@ -15,7 +15,7 @@ public class Customer {
       System.out.println("  Garaget är Fullt/Ledigt");
       System.out.println("  -----------------------------------");
       System.out.println("  1. Påbörja parkering" + '\n' +
-                       "  2. Avsluta parkering");
+                         "  2. Avsluta parkering");
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
       int userInput = Input.userInputInt();
@@ -26,6 +26,7 @@ public class Customer {
   }
 
   private static void checkIn() {
+    // TODO: Kontrollera här om garaget är fullt
     String regNr = Input.userInputRegNr(); // Funktionen returnerar strängen "-1" om användaren bara trycker Enter
     // Fortsätt bara om strängen innehåller något
     if (!regNr.equals("-1")) {
@@ -119,9 +120,9 @@ public class Customer {
 
 private static void printReceipt_checkIn(String regNr, int startTime) {
  System.out.println('\n' + "    KVITTO ");
- System.out.println("    Registreringsnummer:  " + regNr);
- System.out.println("    Tid: " + startTime);
- System.out.println("    (Datum:) " + '\n');
+ System.out.println("    Registreringsnummer: " + regNr);
+ System.out.println("    Tid: " + startTime + '\n');
+ // System.out.println("    (Datum:) " + '\n');
  Input.promptEnterKey();
 }
 

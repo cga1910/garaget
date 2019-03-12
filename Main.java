@@ -13,6 +13,7 @@ public class Main {
       System.out.println('\n' + "1. Kund" + '\n' + "2. Admin");
       int userInput = Input.userInputInt();
       if (userInput == 1) {
+        // TODO: Kontrollera här om garaget är fullt
         Customer.menu();
       } else if (userInput == 2) {
         Admin.menu();

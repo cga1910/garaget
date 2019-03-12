@@ -11,9 +11,10 @@ public class Admin {
       System.out.println("  Prisinfo: ");
       System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
       System.out.println("  -------------------------------");
+      System.out.println("  0. Checka in flera fordon");
+      System.out.println("  -------------------------------");
       System.out.println("  1. Ställ in tid");
       System.out.println("  2. Ta bort fordon");
-      System.out.println("  ---> 8. Checka in X antal fordon.");
       System.out.println("  3. Status");
       System.out.println("  4. Prissättning");
       System.out.println("  5. Logg och statistik");
@@ -27,7 +28,7 @@ public class Admin {
       else if (userInput == 4) { setPricing(); }
       else if (userInput == 5) { logsAndStatsMenu(); }
       else if (userInput == 6) { looping = false; }
-      else if (userInput == 8) { addParkedVehicles(); }
+      else if (userInput == 0) { addParkedVehicles(); }
     }
   }
   
@@ -49,24 +50,56 @@ public class Admin {
   }
 
   // Metod för att checka in ett antal fördefinierade fordon
+  // Förhindrar överfyllnad av garaget samt dubbletter av regNr
   private static void addParkedVehicles() {
-    System.out.print('\n' + "  Ange antal fördefinierade fordon (1-20) att checka in: ");
-    int num = Input.userInputInt();
-    // Kontrollera att angivet antal fordon är tillåtet
-    if (num > 0 && num < 21) {
-      System.out.print('\n' + "  Lägger till fordon: ");
-      for (int i = 0; i < num; i++) {
-        // Skapa ett nytt fordonsobjekt med data från de färdiga listorna
-        ParkedVehicle vehicle =
-                new ParkedVehicle(ParkedVehicle.regNrList.get(i),
-                                  ParkedVehicle.startTimeList.get(i));
-        // Lägg till det skapade objektet i listan över aktiva parkeringsärenden
-        Garage.parkedVehicles.add(vehicle);
-        System.out.print(i + " ");
+    // Räkna ut antal lediga platser
+    int freeSlots = Garage.garageSize - Garage.parkedVehicles.size();
+    System.out.println('\n' + "  Det finns " + freeSlots + " lediga platser." );
+
+    if (freeSlots > 0) {
+      System.out.print('\n' + "  Ange antal att fylla: ");
+      int num = Input.userInputInt();
+
+      // Önskat antal får inte vara större än lediga platser i garaget
+      if (num > 0 && num <= freeSlots) {
+        System.out.println();
+        String predefinedRegNr = "-1";
+        int predefinedStartTime = -1;
+        int i = 0;
+        int addedVehicles = 0;
+
+        // Fortsätt försöka lägga till fordon tills önskat antal (num) är uppnått
+        while (addedVehicles != num) {
+          // Hämta fördefinierat regNr
+          predefinedRegNr = ParkedVehicle.regNrList.get(i);
+          // Hämta fördefinierad start-tid
+          predefinedStartTime = ParkedVehicle.startTimeList.get(i);
+
+          // Kontrollera att inte regNr redan finns i parkeringslistan
+          if (!Garage.checkPresence(predefinedRegNr)) {
+            // Om regNr är ledigt (inte finns),
+            // skapa ett nytt fordonsobjekt med data från de färdiga listorna
+            ParkedVehicle vehicle =
+                    new ParkedVehicle(predefinedRegNr, predefinedStartTime);
+            // Lägg till det skapade objektet i listan över aktiva ärenden
+            Garage.parkedVehicles.add(vehicle);
+            System.out.println("  " + predefinedRegNr + " lades till");
+            addedVehicles++;
+            i++;
+          } else {
+            // Ett fordon med det fördefinierade regNr finns redan
+            System.out.println("  " + predefinedRegNr + " var upptaget");
+            i++; // Kolla nästa regNr under nästa varv
+          }
+        }
+        //System.out.println(); // Färdigt!
+      } else if (num > freeSlots) {
+        // Användaren försökte lägga till för många fordon
+        System.out.println('\n' + "  Felaktigt antal, försök igen.");
+      } else if (num == 0) {
+        // Användaren vill inte lägga till några fordon
+        System.out.println('\n' + "  Avbryter.");
       }
-      System.out.println(); // Färdigt!
-    } else {
-      System.out.println('\n' + "  Felaktigt antal, försök igen.");
     }
   }
 
