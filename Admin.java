@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Admin {
-  
+
     public static void menu() {
     System.out.print("Lösenord: ");
     String pwd = Input.userInputString();
@@ -20,7 +23,7 @@ public class Admin {
       System.out.println("  5. Logg och statistik");
       System.out.println("  6. Tillbaka");
       System.out.println("  -------------------------------");
-        System.out.print("  >> "); 
+        System.out.print("  >> ");
       int userInput = Input.userInputInt();
       if      (userInput == 1) { setTime(); }
       else if (userInput == 2) { removeVehicle(); }
@@ -31,13 +34,13 @@ public class Admin {
       else if (userInput == 0) { addParkedVehicles(); }
     }
   }
-  
+
   private static void setTime() {
     System.out.print('\n' + "  Ange tid: ");
     int time = Input.userInputInt();
     Garage.systemTime = time;
   }
-  
+
   private static void removeVehicle() {
     String regNr = Input.userInputRegNr();
     boolean befintligt = false;
@@ -112,12 +115,12 @@ public class Admin {
       System.out.println("  2. Lista övertrasserade fordon");
       System.out.println("  3. Tillbaka");
       System.out.println("  -------------------------------");
-        System.out.print("  >> "); 
+        System.out.print("  >> ");
       int userInput = Input.userInputInt();
       if      (userInput == 1) { printParked(); }
       else if (userInput == 2) { printOverdue(); }
       else if (userInput == 3) { looping = false; }
-    }    
+    }
   }
 
   private static void printParked() {
@@ -140,7 +143,7 @@ public class Admin {
     System.out.println('\n' + "  Övertrasserade fordon: " + '\n');
     Input.promptEnterKey();
   }
-  
+
   private static void setPricing() {
     boolean looping = true;
     while (looping) {
@@ -160,14 +163,14 @@ public class Admin {
 
   private static void setTimeUnit() {
     System.out.print('\n' + "  Ange tidsenhet: ");
-    int time = Input.userInputInt();    
+    int time = Input.userInputInt();
   }
-  
+
   private static void setRate() {
     System.out.print('\n' + "  Ange taxa: ");
     double time = Input.userInputDouble();
   }
-  
+
   private static void logsAndStatsMenu() {
     boolean looping = true;
     while (looping) {
@@ -217,24 +220,66 @@ public class Admin {
     System.out.println();
     Input.promptEnterKey();
   }
-  
+
   private static void printTotalParkings() {
     System.out.print('\n' + "  Totalt antal parkeringar: " + '\n'); // Eller "Antal parkeringar sedan systemstart"
+    System.out.print("  " + Log.list.size());
+    System.out.println();
     Input.promptEnterKey();
   }
-  
+
   private static void printTotalIncome() {
     System.out.print('\n' + "  Totala intäkter: " + '\n');
+    double debitTotal = 0;
+    for (int i = 0; i < Log.list.size(); i++) {
+      // Hämta information från loggen
+      double debit = Log.list.get(i).debit;
+      debitTotal = debitTotal + debit;
+    }
+    System.out.print("  " + debitTotal + "kr");
+    System.out.println();
     Input.promptEnterKey();
   }
-  
+
   private static void printParkingTimeAverage() {
     System.out.print('\n' + "  Genomsnittlig parkeringstid: " + '\n');
+    int parkedTimeTotal = 0;
+    int numberOfParkings = 0;
+    for (int i = 0; i < Log.list.size(); i++) {
+      // Hämta information från loggen
+      int parkedTime = Log.list.get(i).parkedTime;
+      parkedTimeTotal = parkedTimeTotal + parkedTime;
+      numberOfParkings++;
+    }
+    double parkedTimeAverage = parkedTimeTotal / numberOfParkings; // Beräkna genomsnittlig parkeringstid, tappar dock decimalerna...
+    System.out.print("  " + parkedTimeAverage);
+    System.out.println();
     Input.promptEnterKey();
   }
 
   private static void printParkingTimeMedian() {
     System.out.print('\n' + "  Parkerad mediantid: " + '\n');
+    ArrayList<Integer> parkedTimeList = new ArrayList<Integer>();
+    for (int i = 0; i < Log.list.size(); i++) {
+      // Hämta information från loggen
+      int parkedTime = Log.list.get(i).parkedTime;
+      parkedTimeList.add(parkedTime);
+    }
+    Collections.sort(parkedTimeList);
+    // Index bestäms av liststorlekens paritet, dvs huruvida den är jämn eller udda
+    int parkedTimeMedian = 0;
+    if (parkedTimeList.size() % 2 == 0) {
+      // Medianen i en jämn sorterad lista är medlet av de två indexen i mitten
+      int index1 = parkedTimeList.size()/2;
+      int index2 = index1 - 1;
+      parkedTimeMedian = (parkedTimeList.get(index1) + parkedTimeList.get(index2))/2;
+    }
+    else {
+      int index = (parkedTimeList.size() - 1)/2; // Index för medianen i en sorterad lista när storleken på listan är udda är indexet i mitten
+      parkedTimeMedian = parkedTimeList.get(index);
+    }
+    System.out.print("  " + parkedTimeMedian);
+    System.out.println();
     Input.promptEnterKey();
   }
 
