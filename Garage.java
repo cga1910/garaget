@@ -35,4 +35,14 @@ public class Garage {
     return -1; // När inget matchande registreringsnummer hittades i listan
   }
 
+  public static String getStatus() {
+    String status = "-1";
+    if (parkedVehicles.size() < garageSize) {
+      status= "LEDIGT";
+    } else {
+      status= "FULLT";
+    }
+    return status;
+  }
+
 }

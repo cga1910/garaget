@@ -10,8 +10,8 @@ public class Admin {
     while (looping) {
       System.out.println();
       System.out.println("  ------------ ADMIN ------------");
-      System.out.println("  Aktuell tid: " + Garage.systemTime);
-      System.out.println("  Prisinfo: ");
+      System.out.println("  Aktuell tid: " + Garage.systemTime + " s");
+      System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit + " s");
       System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
       System.out.println("  -------------------------------");
       System.out.println("  0. Checka in flera fordon");
@@ -57,10 +57,10 @@ public class Admin {
   private static void addParkedVehicles() {
     // Räkna ut antal lediga platser
     int freeSlots = Garage.garageSize - Garage.parkedVehicles.size();
-    System.out.println('\n' + "  Det finns " + freeSlots + " lediga platser." );
+    System.out.println('\n' + "  Det finns " + freeSlots + " lediga platser." + '\n');
 
     if (freeSlots > 0) {
-      System.out.print('\n' + "  Ange antal att fylla: ");
+      System.out.print("  Ange antal att fylla: ");
       int num = Input.userInputInt();
 
       // Önskat antal får inte vara större än lediga platser i garaget
@@ -95,15 +95,16 @@ public class Admin {
             i++; // Kolla nästa regNr under nästa varv
           }
         }
-        //System.out.println(); // Färdigt!
+        System.out.println(); // Färdigt
       } else if (num > freeSlots) {
         // Användaren försökte lägga till för många fordon
-        System.out.println('\n' + "  Felaktigt antal, försök igen.");
+        System.out.println('\n' + "  Felaktigt antal, försök igen." + '\n');
       } else if (num == 0) {
         // Användaren vill inte lägga till några fordon
-        System.out.println('\n' + "  Avbryter.");
+        System.out.println('\n' + "  Inga fordon har lagts till." + '\n');
       }
     }
+    Input.promptEnterKey();
   }
 
   private static void statusMenu() {

@@ -10,9 +10,9 @@ public class Customer {
     while (looping) {
       System.out.println();
       System.out.println("  ------------ P-automat ------------");
-      System.out.println("  Tid: ");
-      System.out.println("  Prisinfo: ");
-      System.out.println("  Garaget är Fullt/Ledigt");
+      System.out.println("  Tid: " + Garage.systemTime/60 + " min");
+      System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit/60 + " min");
+      System.out.println("  Garaget är " + Garage.getStatus());
       System.out.println("  -----------------------------------");
       if (Garage.parkedVehicles.size() < 20) {
         System.out.println("  1. Påbörja parkering");
@@ -139,7 +139,6 @@ private static void printReceipt_checkIn(String regNr, int startTime) {
 
   private static String getDate() {
     LocalDateTime ldt = LocalDateTime.now();
-    String date = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
-    return date;
+    return DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
   }
 }
