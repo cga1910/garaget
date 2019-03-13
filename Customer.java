@@ -14,12 +14,14 @@ public class Customer {
       System.out.println("  Prisinfo: ");
       System.out.println("  Garaget är Fullt/Ledigt");
       System.out.println("  -----------------------------------");
-      System.out.println("  1. Påbörja parkering" + '\n' +
-                       "  2. Avsluta parkering");
+      if (Garage.parkedVehicles.size() < 20) {
+        System.out.println("  1. Påbörja parkering");
+      }
+      System.out.println("  2. Avsluta parkering");
       System.out.println("  -----------------------------------");
         System.out.print("  >> ");
       int userInput = Input.userInputInt();
-      if      (userInput == 1) { checkIn(); }
+      if      (userInput == 1 && (Garage.parkedVehicles.size() < 20) ) { checkIn(); }
       else if (userInput == 2) { checkOut(); }
       else if (userInput == 0) { looping = false; }
     }
