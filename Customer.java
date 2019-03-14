@@ -66,7 +66,7 @@ public class Customer {
         System.out.println("    Taxa: " + taxa + " kr för varje påbörjad period om " + (timeUnit/60) + " minuter");
         System.out.println("    Antal påbörjade perioder: " + Debit.ADT + '\n');
         System.out.println("    Debitering: " + Debit.ADT + " * " + taxa + " kr = " + price + " kr" + '\n');
-        System.out.println("    Att betala: " + price + " kr");
+        System.out.println("  Att betala: " + price + " kr");
 
         // Anropa betalnings-metoden
         cashPayment(price, parkedTime);
@@ -100,20 +100,20 @@ public class Customer {
     double payment = 0;
 
     while (balance < 0) { // Upprepa så länge kunden har kvar att betala
-      System.out.print("    >> ");
+      System.out.print("  >> ");
       payment = Input.userInputDouble();
       if (payment > 0) { // Godtag bara positiv betalning
         balance = balance + payment;
       }
       if (balance >= 0) { // Kunden har betalat tillräckligt
         if (balance > 0) {
-          System.out.println("    Växel: " + balance + " kr");
+          System.out.println('\n' + "  Växel: " + balance + " kr");
         }
-        System.out.println("    Tack för din betalning!" + '\n');
+        System.out.println("  Tack för din betalning!" + '\n');
         Input.promptEnterKey();
         break; // Bryt while-loopen
       } else if (balance < 0) {
-        System.out.println("    Kvar att betala: " + (balance * -1) + " kr");
+        System.out.println('\n' + "  Kvar att betala: " + (balance * -1) + " kr");
       }
     }
   }

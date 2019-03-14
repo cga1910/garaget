@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.io.IOException;
 
 public class Input {
   
@@ -65,10 +64,12 @@ public class Input {
           return pass;
         }
       } catch (Exception e) {
-        System.out.println('\n' + "  Felaktigt format. Använd formatet ABC123.");
+        System.out.println('\n' + "  Felaktigt format. Använd formatet ABC123." + '\n');
+        promptEnterKey();
       }
     }
-    System.out.println('\n' + "  Felaktigt format. Använd formatet ABC123.");
+    System.out.println('\n' + "  Felaktigt format. Använd formatet ABC123." + '\n');
+    promptEnterKey();
     return pass;
   }
 
