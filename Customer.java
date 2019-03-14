@@ -28,7 +28,6 @@ public class Customer {
   }
 
   private static void checkIn() {
-    // TODO: Kontrollera här om garaget är fullt
     String regNr = Input.userInputRegNr(); // Funktionen returnerar strängen "-1" om användaren bara trycker Enter
     // Fortsätt bara om strängen innehåller något
     if (!regNr.equals("-1")) {
@@ -46,8 +45,8 @@ public class Customer {
 
   private static void checkOut() {
     String regNr = Input.userInputRegNr();
-    // Fortsätt bara om strängen innehåller något
-    if (!regNr.equals("-1")) {
+    // Fortsätt bara om strängen innehåller något, samt har rätt format
+    if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
       // Kontrollera om angivet regNr finns i garaget
       if (Garage.checkPresence(regNr)) {
         // 1. Med hjälp av regNr, ta reda på vilket index som fordonet finns på
@@ -86,7 +85,7 @@ public class Customer {
         printReceipt_checkOut(price, parkedTime, passCode);
 
       } else {
-        System.out.println("  Kunde inte hitta registreringsnumret!" + '\n');
+        System.out.println('\n' + "  Kunde inte hitta registreringsnumret!" + '\n');
         Input.promptEnterKey();
       }
     }
@@ -120,13 +119,13 @@ public class Customer {
     }
   }
 
-private static void printReceipt_checkIn(String regNr, int startTime) {
- System.out.println('\n' + "    KVITTO ");
- System.out.println("    Registreringsnummer: " + regNr);
- System.out.println("    Tid: " + startTime + '\n');
- // System.out.println("    (Datum:) " + '\n');
- Input.promptEnterKey();
-}
+  private static void printReceipt_checkIn(String regNr, int startTime) {
+   System.out.println('\n' + "    KVITTO ");
+   System.out.println("    Registreringsnummer: " + regNr);
+   System.out.println("    Tid: " + startTime + '\n');
+   // System.out.println("    (Datum:) " + '\n');
+   Input.promptEnterKey();
+  }
 
   private static void printReceipt_checkOut(double paid, int parkedTime, int passCode) {
     System.out.println('\n' + "    KVITTO ");
