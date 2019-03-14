@@ -8,7 +8,9 @@ public class Debit {
   static double ADT = -1;
   static double debit = -1;
 
-  public static double getDebit(double parkedTime) {
+  public static double getDebit(double parkedTime, int parkingIndex) {
+    double timeUnit = Garage.parkedVehicles.get(parkingIndex).timeUnit;
+    double taxa = Garage.parkedVehicles.get(parkingIndex).taxa;
     ADT = parkedTime / timeUnit;
     ADT = Math.ceil(ADT); // Avrunda uppåt
     debit = ADT * taxa;

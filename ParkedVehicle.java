@@ -5,6 +5,8 @@ public class ParkedVehicle {
 
   public String regNr = "-1";
   public int startTime = -1;
+  public double taxa = -1;
+  public double timeUnit = -1;
 
   // Fördefinierade registreringsnummer
   public static ArrayList<String> regNrList = new ArrayList<String>
@@ -30,9 +32,11 @@ public class ParkedVehicle {
                   18000, 19000)); */
 
   // Konstruktor för parkerade fordon
-  public ParkedVehicle(String regNr, int startTime) {
+  public ParkedVehicle(String regNr, int startTime, double timeUnit, double taxa) {
     this.regNr = regNr;
     this.startTime = startTime;
+    this.timeUnit = timeUnit;
+    this.taxa = taxa;
   }
 
   // Dessa behövs bara om vi gör instansvariablerna privata
