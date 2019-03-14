@@ -60,7 +60,7 @@ public class Admin {
     System.out.println('\n' + "  Det finns " + freeSlots + " lediga platser." + '\n');
 
     if (freeSlots > 0) {
-      System.out.print("  Ange antal att fylla: ");
+      System.out.print("  Ange antal fordon att checka in: ");
       int num = Input.userInputInt();
 
       // Önskat antal får inte vara större än lediga platser i garaget
@@ -83,7 +83,7 @@ public class Admin {
             // Om regNr är ledigt (inte finns),
             // skapa ett nytt fordonsobjekt med data från de färdiga listorna
             ParkedVehicle vehicle =
-                    new ParkedVehicle(predefinedRegNr, predefinedStartTime);
+                    new ParkedVehicle(predefinedRegNr, predefinedStartTime, Debit.timeUnit, Debit.taxa);
             // Lägg till det skapade objektet i listan över aktiva ärenden
             Garage.parkedVehicles.add(vehicle);
             System.out.println("  " + predefinedRegNr + " lades till");
@@ -132,7 +132,7 @@ public class Admin {
       // Hämta starttiden
       int startTime = Garage.parkedVehicles.get(i).startTime;
       // Skriv ut...
-      System.out.print((i+1) + "   ");
+      System.out.print("  " + (i+1) + "   ");
       System.out.print  ("Reg-nr: "   + regNr + "  ");
       System.out.println("Starttid: " + startTime);
     }

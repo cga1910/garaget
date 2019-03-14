@@ -34,7 +34,7 @@ public class Customer {
       // Kontrollera här registreringsnumrets format
       System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
       System.out.println("  Giltigt: ");
-      ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime);
+      ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime, Debit.timeUnit, Debit.taxa);
       Garage.parkedVehicles.add(vehicle);
       printReceipt_checkIn(regNr, Garage.systemTime);
       System.out.println('\n' + "  Ogiltigt: " + '\n');
@@ -49,31 +49,30 @@ public class Customer {
     if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
       // Kontrollera om angivet regNr finns i garaget
       if (Garage.checkPresence(regNr)) {
-        // 1. Med hjälp av regNr, ta reda på vilket index som fordonet finns på
+        // Med hjälp av regNr, ta reda på vilket index som fordonet finns på
         int parkingIndex = Garage.getParkingIndex(regNr);
-        // 2. Hämta start-tiden för fordonet på ovanstående index
+        // Hämta start-tiden för fordonet på ovanstående index
         int parkingStartTime = Garage.parkedVehicles.get(parkingIndex).startTime;
-        // 3. Räkna ut parkerad tid genom att subtrahera från nutid (systemtid)
+        // Räkna ut parkerad tid genom att subtrahera från nutid (systemtid)
         int parkedTime = Garage.systemTime - parkingStartTime;
-
         // Hämta priset, baserat på parkerad tid
-        double price = Debit.getDebit(parkedTime);
+        double price = Debit.getDebit(parkedTime, parkingIndex);
 
+        // Skriv ut info till kunden
+        double taxa = Garage.parkedVehicles.get(parkingIndex).taxa;
+        double timeUnit = Garage.parkedVehicles.get(parkingIndex).timeUnit;
         System.out.println();
         System.out.println("    Parkerad tid: " + (parkedTime/60) + " minuter");
-        System.out.println("    Taxa: " + Debit.taxa + " kr för varje påbörjad period om " + (Debit.timeUnit/60) + " minuter");
-        System.out.println("    Antal debiterade perioder: " + Debit.ADT + '\n');
-        System.out.println("    Debitering: " + Debit.ADT + " * " + Debit.taxa + " kr = " + price + " kr" + '\n');
+        System.out.println("    Taxa: " + taxa + " kr för varje påbörjad period om " + (timeUnit/60) + " minuter");
+        System.out.println("    Antal påbörjade perioder: " + Debit.ADT + '\n');
+        System.out.println("    Debitering: " + Debit.ADT + " * " + taxa + " kr = " + price + " kr" + '\n');
         System.out.println("    Att betala: " + price + " kr");
 
         // Anropa betalnings-metoden
         cashPayment(price, parkedTime);
 
         // Logga ärendet
-        // TODO: timeUnit och taxa ska plockas från fordons-objektet egentligen - ej från systemets nuvarande värden (i Debit),
-        // TODO: men så länge incheckningen inte lagrar dessa variabler i fordons-objektet måste vi ta dem från Debit.
-        // TODO: Men det är inte kritiskt.
-        Log.addEntry(getDate(), regNr, Debit.taxa, Debit.timeUnit, parkingStartTime, Garage.systemTime, parkedTime, price);
+        Log.addEntry(getDate(), regNr, taxa, timeUnit, parkingStartTime, Garage.systemTime, parkedTime, price);
 
         // Ta bort ärendet
         Garage.parkedVehicles.remove(parkingIndex);
