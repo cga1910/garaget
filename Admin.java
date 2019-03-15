@@ -43,13 +43,41 @@ public class Admin {
 
   private static void removeVehicle() {
     String regNr = Input.userInputRegNr();
+    if (Input.checkRegNrFormat(regNr)) {
+      // Kontrollera om angivet regNr finns i garaget
+      if (Garage.checkPresence(regNr)) {
+        // Med hjälp av regNr, ta reda på vilket index som fordonet finns på
+        int parkingIndex = Garage.getParkingIndex(regNr);
+        // Hämta start-tiden för fordonet på ovanstående index
+        int parkingStartTime = Garage.parkedVehicles.get(parkingIndex).startTime;
+        // Räkna ut parkerad tid genom att subtrahera från nutid (systemtid)
+        int parkedTime = Garage.systemTime - parkingStartTime;
+        // Markera ärendet som obetalt genom att sätta till -1
+        // OBS! Detta kanske vi vill ändra!
+        double price = -1.0;
+        // Logga ändå vad vi _skulle_ ha tagit i betalt
+        double taxa = Garage.parkedVehicles.get(parkingIndex).taxa;
+        double timeUnit = Garage.parkedVehicles.get(parkingIndex).timeUnit;
+        // Logga ärendet
+        Log.addEntry(Customer.getDate(), regNr, taxa, timeUnit, parkingStartTime, Garage.systemTime, parkedTime, price);
+        Garage.parkedVehicles.remove(parkingIndex); // Ta bort fordonet
+        System.out.println("  Fordonet med registreringsnummer " + regNr + " togs bort ur listan.");
+      } else {
+        System.out.println("  Fordonet med registreringsnummer " + regNr + "finns inte!");
+      }
+    } else {
+      System.out.println("  Ogiltigt registreringsnummer.");
+    }
+    /*
+    String regNr = Input.userInputRegNr();
     boolean befintligt = false;
+
     // TODO: Kontrollera här om registreringsnumret finns - använd metoden checkPresence i Garage-klassen
     if (befintligt) {
       System.out.println("  Fordonet med registreringsnummer " + regNr + " togs bort ur listan.");
     } else {
       System.out.println("  Ogiltigt registreringsnummer.");
-    }
+    }*/
   }
 
   // Metod för att checka in ett antal fördefinierade fordon
