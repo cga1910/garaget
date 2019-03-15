@@ -32,14 +32,14 @@ public class Customer {
     // Fortsätt bara om strängen innehåller något
     if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
       // Kontrollera här registreringsnumrets format
-      System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
-      System.out.println("  Giltigt: ");
+      // System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
+      // System.out.println("  Giltigt: ");
       ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime, Debit.timeUnit, Debit.taxa);
       Garage.parkedVehicles.add(vehicle);
       printReceipt_checkIn(regNr, Garage.systemTime);
-      System.out.println('\n' + "  Ogiltigt: " + '\n');
-      System.out.println("    Felmeddelande!" + '\n');
-      Input.promptEnterKey();
+      // System.out.println('\n' + "  Ogiltigt: " + '\n');
+      // System.out.println("    Felmeddelande!" + '\n');
+      // Input.promptEnterKey();
     }
   }
 
