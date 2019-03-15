@@ -48,7 +48,7 @@ public class Admin {
 
   private static void removeVehicle() {
     String regNr = Input.userInputRegNr();
-    if (Input.checkRegNrFormat(regNr)) {
+    if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
       // Kontrollera om angivet regNr finns i garaget
       if (Garage.checkPresence(regNr)) {
         // Med hjälp av regNr, ta reda på vilket index som fordonet finns på
