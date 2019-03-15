@@ -45,4 +45,13 @@ public class Garage {
     return status;
   }
 
+  public static String getBoom() {
+  String boom = "-1";
+  if (parkedVehicles.size() < garageSize) {
+    boom= "UPPE";
+  } else {
+    boom= "NERE";
+  }
+  return boom;
+  }
 }

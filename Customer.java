@@ -13,6 +13,7 @@ public class Customer {
       System.out.println("  Tid: " + Garage.systemTime/60 + " min");
       System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit/60 + " min");
       System.out.println("  Garaget är " + Garage.getStatus());
+      System.out.println("  Boomen är " + Garage.getBoom());
       System.out.println("  -----------------------------------");
       if (Garage.parkedVehicles.size() < 20) {
         System.out.println("  1. Påbörja parkering");
@@ -28,20 +29,20 @@ public class Customer {
   }
 
   private static void checkIn() {
-    String regNr = Input.userInputRegNr(); // Funktionen returnerar strängen "-1" om användaren bara trycker Enter
-    // Fortsätt bara om strängen innehåller något
-    if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
-      // Kontrollera här registreringsnumrets format
-      // System.out.println("  Här ska registreringsnumrets format kontrolleras." + '\n');
-      // System.out.println("  Giltigt: ");
-      ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime, Debit.timeUnit, Debit.taxa);
-      Garage.parkedVehicles.add(vehicle);
-      printReceipt_checkIn(regNr, Garage.systemTime);
-      // System.out.println('\n' + "  Ogiltigt: " + '\n');
-      // System.out.println("    Felmeddelande!" + '\n');
-      // Input.promptEnterKey();
+      String regNr = Input.userInputRegNr(); // Funktionen returnerar strängen "-1" om användaren bara trycker Enter
+      // Fortsätt bara om strängen innehåller något
+      //Kollar formatet stämmer
+      if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
+        //Kollar om Reg redan är incheckat
+        if (!Garage.checkPresence(regNr)) {
+        ParkedVehicle vehicle = new ParkedVehicle(regNr, Garage.systemTime, Debit.timeUnit, Debit.taxa);
+        Garage.parkedVehicles.add(vehicle);
+        printReceipt_checkIn(regNr, Garage.systemTime);
+        } else {
+        System.out.println(" \n  Registreringsnumret är redan incheckat! ");
+        }
+      }
     }
-  }
 
   private static void checkOut() {
     String regNr = Input.userInputRegNr();
