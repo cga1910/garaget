@@ -2,36 +2,41 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Admin {
+    static private final String PASSWORD = "TheAdmin"; // Vi hade ett annat lösenord i vår kravspec så ändra detta
 
     public static void menu() {
     System.out.print("Lösenord: ");
     String pwd = Input.userInputString();
-    boolean looping = true;
-    while (looping) {
-      System.out.println();
-      System.out.println("  ------------ ADMIN ------------");
-      System.out.println("  Aktuell tid: " + Garage.systemTime + " s");
-      System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit + " s");
-      System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
-      System.out.println("  -------------------------------");
-      System.out.println("  0. Checka in flera fordon");
-      System.out.println("  -------------------------------");
-      System.out.println("  1. Ställ in tid");
-      System.out.println("  2. Ta bort fordon");
-      System.out.println("  3. Status");
-      System.out.println("  4. Prissättning");
-      System.out.println("  5. Logg och statistik");
-      System.out.println("  6. Tillbaka");
-      System.out.println("  -------------------------------");
-        System.out.print("  >> ");
-      int userInput = Input.userInputInt();
-      if      (userInput == 1) { setTime(); }
-      else if (userInput == 2) { removeVehicle(); }
-      else if (userInput == 3) { statusMenu(); }
-      else if (userInput == 4) { setPricing(); }
-      else if (userInput == 5) { logsAndStatsMenu(); }
-      else if (userInput == 6) { looping = false; }
-      else if (userInput == 0) { addParkedVehicles(); }
+    if (pwd.equals(PASSWORD)) {
+      boolean looping = true;
+      while (looping) {
+        System.out.println();
+        System.out.println("  ------------ ADMIN ------------");
+        System.out.println("  Aktuell tid: " + Garage.systemTime + " s");
+        System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit + " s");
+        System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
+        System.out.println("  -------------------------------");
+        System.out.println("  0. Checka in flera fordon");
+        System.out.println("  -------------------------------");
+        System.out.println("  1. Ställ in tid");
+        System.out.println("  2. Ta bort fordon");
+        System.out.println("  3. Status");
+        System.out.println("  4. Prissättning");
+        System.out.println("  5. Logg och statistik");
+        System.out.println("  6. Tillbaka");
+        System.out.println("  -------------------------------");
+          System.out.print("  >> ");
+        int userInput = Input.userInputInt();
+        if      (userInput == 1) { setTime(); }
+        else if (userInput == 2) { removeVehicle(); }
+        else if (userInput == 3) { statusMenu(); }
+        else if (userInput == 4) { setPricing(); }
+        else if (userInput == 5) { logsAndStatsMenu(); }
+        else if (userInput == 6) { looping = false; }
+        else if (userInput == 0) { addParkedVehicles(); }
+      }
+    } else {
+      System.out.println("Felaktigt password");
     }
   }
 
