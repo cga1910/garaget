@@ -142,6 +142,23 @@ public class Admin {
 
   private static void printOverdue() {
     System.out.println('\n' + "  Övertrasserade fordon: " + '\n');
+    int counter = 0;
+    for (int i = 0; i < Garage.parkedVehicles.size(); i++) {
+      // Hämta registreringsnumret
+      String regNr = Garage.parkedVehicles.get(i).regNr;
+      // Hämta starttiden
+      int startTime = Garage.parkedVehicles.get(i).startTime;
+      // Beräkna parkerad tid
+      int parkedTime = Garage.systemTime - startTime;
+      // Skriv ut ifall parkedTime är 3 dygn eller mer
+      if (parkedTime >= 259200) {
+        System.out.print("  " + (counter+1) + "   ");
+        System.out.print  ("Reg-nr: "   + regNr + "  ");
+        System.out.println("Starttid: " + startTime);
+        counter++;
+      }
+    }
+    System.out.println();
     Input.promptEnterKey();
   }
 
