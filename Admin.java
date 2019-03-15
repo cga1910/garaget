@@ -165,11 +165,13 @@ public class Admin {
   private static void setTimeUnit() {
     System.out.print('\n' + "  Ange tidsenhet: ");
     int time = Input.userInputInt();
+    Debit.timeUnit = time;
   }
 
   private static void setRate() {
     System.out.print('\n' + "  Ange taxa: ");
-    double time = Input.userInputDouble();
+    double rate = Input.userInputDouble();
+    Debit.taxa = rate;
   }
 
   private static void logsAndStatsMenu() {
