@@ -135,7 +135,7 @@ public class Customer {
     Input.promptEnterKey();
   }
 
-  private static String getDate() {
+  public static String getDate() { // Jag behövde ändra detta till public för att få åtkomst via admin...
     LocalDateTime ldt = LocalDateTime.now();
     return DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
   }

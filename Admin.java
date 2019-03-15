@@ -2,36 +2,41 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Admin {
+    static private final String PASSWORD = "admin123";
 
     public static void menu() {
     System.out.print("Lösenord: ");
     String pwd = Input.userInputString();
-    boolean looping = true;
-    while (looping) {
-      System.out.println();
-      System.out.println("  ------------ ADMIN ------------");
-      System.out.println("  Aktuell tid: " + Garage.systemTime + " s");
-      System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit + " s");
-      System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
-      System.out.println("  -------------------------------");
-      System.out.println("  0. Checka in flera fordon");
-      System.out.println("  -------------------------------");
-      System.out.println("  1. Ställ in tid");
-      System.out.println("  2. Ta bort fordon");
-      System.out.println("  3. Status");
-      System.out.println("  4. Prissättning");
-      System.out.println("  5. Logg och statistik");
-      System.out.println("  6. Tillbaka");
-      System.out.println("  -------------------------------");
-        System.out.print("  >> ");
-      int userInput = Input.userInputInt();
-      if      (userInput == 1) { setTime(); }
-      else if (userInput == 2) { removeVehicle(); }
-      else if (userInput == 3) { statusMenu(); }
-      else if (userInput == 4) { setPricing(); }
-      else if (userInput == 5) { logsAndStatsMenu(); }
-      else if (userInput == 6) { looping = false; }
-      else if (userInput == 0) { addParkedVehicles(); }
+    if (pwd.equals(PASSWORD)) {
+      boolean looping = true;
+      while (looping) {
+        System.out.println();
+        System.out.println("  ------------ ADMIN ------------");
+        System.out.println("  Aktuell tid: " + Garage.systemTime + " s");
+        System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit + " s");
+        System.out.println("  Fyllnadsgrad: " + Garage.parkedVehicles.size());
+        System.out.println("  -------------------------------");
+        System.out.println("  0. Checka in flera fordon");
+        System.out.println("  -------------------------------");
+        System.out.println("  1. Ställ in tid");
+        System.out.println("  2. Ta bort fordon");
+        System.out.println("  3. Status");
+        System.out.println("  4. Prissättning");
+        System.out.println("  5. Logg och statistik");
+        System.out.println("  6. Tillbaka");
+        System.out.println("  -------------------------------");
+          System.out.print("  >> ");
+        int userInput = Input.userInputInt();
+        if      (userInput == 1) { setTime(); }
+        else if (userInput == 2) { removeVehicle(); }
+        else if (userInput == 3) { statusMenu(); }
+        else if (userInput == 4) { setPricing(); }
+        else if (userInput == 5) { logsAndStatsMenu(); }
+        else if (userInput == 6) { looping = false; }
+        else if (userInput == 0) { addParkedVehicles(); }
+      }
+    } else {
+      System.out.println("Felaktigt password");
     }
   }
 
@@ -43,13 +48,41 @@ public class Admin {
 
   private static void removeVehicle() {
     String regNr = Input.userInputRegNr();
+    if (!regNr.equals("-1") && Input.checkRegNrFormat(regNr)) {
+      // Kontrollera om angivet regNr finns i garaget
+      if (Garage.checkPresence(regNr)) {
+        // Med hjälp av regNr, ta reda på vilket index som fordonet finns på
+        int parkingIndex = Garage.getParkingIndex(regNr);
+        // Hämta start-tiden för fordonet på ovanstående index
+        int parkingStartTime = Garage.parkedVehicles.get(parkingIndex).startTime;
+        // Räkna ut parkerad tid genom att subtrahera från nutid (systemtid)
+        int parkedTime = Garage.systemTime - parkingStartTime;
+        // Markera ärendet som obetalt genom att sätta till -1
+        // OBS! Detta kanske vi vill ändra!
+        double price = -1.0;
+        // Logga ändå vad vi _skulle_ ha tagit i betalt
+        double taxa = Garage.parkedVehicles.get(parkingIndex).taxa;
+        double timeUnit = Garage.parkedVehicles.get(parkingIndex).timeUnit;
+        // Logga ärendet
+        Log.addEntry(Customer.getDate(), regNr, taxa, timeUnit, parkingStartTime, Garage.systemTime, parkedTime, price);
+        Garage.parkedVehicles.remove(parkingIndex); // Ta bort fordonet
+        System.out.println("  Fordonet med registreringsnummer " + regNr + " togs bort ur listan.");
+      } else {
+        System.out.println("  Fordonet med registreringsnummer " + regNr + "finns inte!");
+      }
+    } else {
+      System.out.println("  Ogiltigt registreringsnummer.");
+    }
+    /*
+    String regNr = Input.userInputRegNr();
     boolean befintligt = false;
+
     // TODO: Kontrollera här om registreringsnumret finns - använd metoden checkPresence i Garage-klassen
     if (befintligt) {
       System.out.println("  Fordonet med registreringsnummer " + regNr + " togs bort ur listan.");
     } else {
       System.out.println("  Ogiltigt registreringsnummer.");
-    }
+    }*/
   }
 
   // Metod för att checka in ett antal fördefinierade fordon
@@ -165,11 +198,13 @@ public class Admin {
   private static void setTimeUnit() {
     System.out.print('\n' + "  Ange tidsenhet: ");
     int time = Input.userInputInt();
+    Debit.timeUnit = time;
   }
 
   private static void setRate() {
     System.out.print('\n' + "  Ange taxa: ");
-    double time = Input.userInputDouble();
+    double rate = Input.userInputDouble();
+    Debit.taxa = rate;
   }
 
   private static void logsAndStatsMenu() {
