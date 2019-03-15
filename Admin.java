@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Admin {
-    static private final String PASSWORD = "TheAdmin"; // Vi hade ett annat lösenord i vår kravspec så ändra detta
+    static private final String PASSWORD = "admin123";
 
     public static void menu() {
     System.out.print("Lösenord: ");
