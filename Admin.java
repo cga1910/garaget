@@ -43,7 +43,9 @@ public class Admin {
   private static void setTime() {
     System.out.print('\n' + "  Ange tid: ");
     int time = Input.userInputInt();
-    Garage.systemTime = time;
+    if (time != -1) {
+      Garage.systemTime = time;
+    }
   }
 
   private static void removeVehicle() {
@@ -215,13 +217,17 @@ public class Admin {
   private static void setTimeUnit() {
     System.out.print('\n' + "  Ange tidsenhet: ");
     int time = Input.userInputInt();
-    Debit.timeUnit = time;
+    if (time != -1) {
+      Debit.timeUnit = time;
+    }
   }
 
   private static void setRate() {
     System.out.print('\n' + "  Ange taxa: ");
     double rate = Input.userInputDouble();
-    Debit.taxa = rate;
+    if (rate != -1) {
+      Debit.taxa = rate;
+    }
   }
 
   private static void logsAndStatsMenu() {
