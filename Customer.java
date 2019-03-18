@@ -13,7 +13,7 @@ public class Customer {
       System.out.println("  Tid: " + Garage.systemTime/60 + " min");
       System.out.println("  Prisinfo: " + Debit.taxa + " kr / " + Debit.timeUnit/60 + " min");
       System.out.println("  Garaget är " + Garage.getStatus());
-      System.out.println("  Boomen är " + Garage.getBoom());
+      System.out.println("  Bommen är " + Garage.getBoom());
       System.out.println("  -----------------------------------");
       if (Garage.parkedVehicles.size() < 20) {
         System.out.println("  1. Påbörja parkering");
